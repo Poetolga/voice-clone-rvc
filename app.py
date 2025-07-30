@@ -1,12 +1,15 @@
-import os
-from flask import Flask, request, jsonify
+import gradio as gr
 
-app = Flask(__name__)
+def dummy_clone(audio):
+    # Здесь должна быть логика RVC, пока заглушка — просто возвращает то же аудио
+    return audio
 
-@app.route("/")
-def index():
-    return "RVC Voice Clone ready"
+app = gr.Interface(
+    fn=dummy_clone,
+    inputs=gr.Audio(type="filepath", label="Загрузите аудиофайл"),
+    outputs=gr.Audio(type="filepath", label="Готовый результат"),
+    title="RVC Voice Clone",
+    description="Голосовой клонер на основе RVC. Загрузите аудиофайл и получите результат."
+)
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+app.launch(server_name="0.0.0.0", server_port=10000)
